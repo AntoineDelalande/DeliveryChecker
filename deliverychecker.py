@@ -67,12 +67,16 @@ def plan_delivery_steps(deliveries, path):
 # The core function that runs too checks and plans the delivery steps if everything is valid.
 # It takes parameters from the command line.
 def deliveryChecker(params):
-    if len(params) < 2:
+    if len(params) != 2:
         print("Usage: deliverychecker <param1> <param2>")
         return
     
-    deliveries = json.loads(params[0])
-    path = json.loads(params[1])
+    try:
+        deliveries = json.loads(params[0])
+        path = json.loads(params[1])
+    except json.JSONDecodeError:
+        print("One or both parameters are not valid JSON.")
+        return
 
     check_exist = delivery_address_not_in_path(deliveries, path)
     if check_exist[0]:
